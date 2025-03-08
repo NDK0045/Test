@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Rain</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: url('https://images.pexels.com/photos/129731/pexels-photo-129731.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+        }
+        .flower {
+            position: absolute;
+            width: 150px; 
+            height: 150px; 
+            background-size: contain;
+            background-repeat: no-repeat;
+            pointer-events: none;
+        }
+        .message {
+            position: absolute;
+            text-align: center;
+            font-size: 50px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
+            background: rgba(255, 105, 180, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        Happy International Women's Day<br>
+        You are the best!
+    </div>
+    <script>
+        const flowerImages = [
+            'https://cdn-icons-png.flaticon.com/128/3894/3894261.png',
+            'https://cdn-icons-png.flaticon.com/128/346/346167.png',
+            'https://cdn-icons-png.flaticon.com/128/3894/3894261.png',
+            'https://cdn-icons-png.flaticon.com/128/2926/2926754.png',
+            'https://cdn-icons-png.flaticon.com/128/1497/1497177.png',
+            'https://cdn-icons-png.flaticon.com/128/16171/16171796.png'
+        ];
+
+        function createFlower() {
+            const flower = document.createElement('div');
+            flower.classList.add('flower');
+            flower.style.backgroundImage = `url('${flowerImages[Math.floor(Math.random() * flowerImages.length)]}')`;
+            document.body.appendChild(flower);
+            
+            const startPosX = Math.random() * window.innerWidth;
+            flower.style.left = `${startPosX}px`;
+            flower.style.top = '-50px';
+
+            let speed = Math.random() * 4; 
+            let angle = Math.random() * 360;
+            let rotation = Math.random() * 360;
+
+            function fall() {
+                const topPos = parseFloat(flower.style.top);
+                if (topPos > window.innerHeight) {
+                    flower.remove();
+                } else {
+                    flower.style.top = `${topPos + speed}px`;
+                    flower.style.left = `${startPosX + Math.sin(angle) * 10}px`;
+                    flower.style.transform = `rotate(${rotation}deg)`;
+                    rotation += 5; 
+                    angle += 0.1;
+                    requestAnimationFrame(fall);
+                }
+            }
+            fall();
+        }
+
+        setInterval(createFlower, 50); 
+    </script>
+</body>
+</html>
